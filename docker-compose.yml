@@ -15,6 +15,7 @@ services:
       - DB_PASS=supersecretpassword
     depends_on:
       - db
+      - memcached
 
   db:
     image: postgres:10-alpine
@@ -22,3 +23,11 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=supersecretpassword
+
+  memcached:
+    image: memcached:1.6-alpine
+    expose:
+      - 11211
+    environment:
+      - CACHE_SIZE=128
+      - MAX_CONNECTIONS=2000
