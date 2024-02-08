@@ -80,12 +80,12 @@ class OpenWeatherMapClient:
         parsed_data = {
             "City": city_name,
             "Temperature": f"{temperature} °C",
-            "Min Temperature": f"{min_temp} °C",
-            "Max Temperature": f"{max_temp} °C",
+            "MinTemperature": f"{min_temp} °C",
+            "MaxTemperature": f"{max_temp} °C",
             "Humidity": f"{humidity}%",
             "Pressure": f"{pressure} hPa",
-            "Wind Speed": f"{wind_speed} m/s",
-            "Wind Direction": self.get_wind_direction(wind_direction),
+            "WindSpeed": f"{wind_speed} m/s",
+            "WindDirection": self.get_wind_direction(wind_direction),
             "Description": description
         }
 
