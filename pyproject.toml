@@ -1,0 +1,8 @@
+# pyproject.toml
+
+[tool.isort]
+profile = "django"
+
+[tool.black]
+line-length = 88
+target-version = ['py37']

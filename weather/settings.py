@@ -17,7 +17,10 @@ env = environ.Env(
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY", default="django-insecure-meh6xffm+*auo8m(*g(&jppukv7j4eq$d19+mw$63@hp2ygy(2")
+SECRET_KEY = env(
+    "SECRET_KEY",
+    default="django-insecure-meh6xffm+*auo8m(*g(&jppukv7j4eq$d19+mw$63@hp2ygy(2",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
@@ -94,7 +97,9 @@ WSGI_APPLICATION = "weather.wsgi.application"
 
 SQLITE_PATH = BASE_DIR / "db.sqlite3"
 DATABASES = {
-    "default": env.db(default=f"sqlite:///{SQLITE_PATH}"),  # 'default': env.db('SQLITE_URL')
+    "default": env.db(
+        default=f"sqlite:///{SQLITE_PATH}"
+    ),  # 'default': env.db('SQLITE_URL')
 }
 
 # Password validation
@@ -130,7 +135,7 @@ gettext = lambda s: s
 LANGUAGES = (
     ("en", gettext("English")),
     ("ar", gettext("Arabic")),
-    ('de', gettext('German')),
+    ("de", gettext("German")),
 )
 
 # Static files (CSS, JavaScript, Images)
@@ -189,10 +194,19 @@ LOGGING = {
         },
     },
 }
+CACHE_SECONDS = env("CACHE_SECONDS", default=300)
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": "127.0.0.1:11211",
+        "TIMEOUT": CACHE_SECONDS,
+    }
+}
 
 AUTH_USER_MODEL = "core.User"
 
-OPEN_WEATHER_API_KEY = env("OPEN_WEATHER_API_KEY", default="40e81b0386bf3086563e5fe4ec67e22b")
+OPEN_WEATHER_API_KEY = env(
+    "OPEN_WEATHER_API_KEY", default="40e81b0386bf3086563e5fe4ec67e22b"
+)
 BASE_API_URL = env("BASE_API_URL", default="http://api.openweathermap.org/")
-
