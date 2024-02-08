@@ -76,8 +76,8 @@ class WeatherAPITest(TestCase):
     def test_get_weather_data(self):
         response = self.client.get(get_city_url("London"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('City', response.data)
-        self.assertIn('Temperature', response.data)
+        self.assertIn('city', response.data)
+        self.assertIn('temperature', response.data)
 
     def test_get_weather_data_invalid_city(self):
         response = self.client.get(get_city_url("..."))

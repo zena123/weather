@@ -2,12 +2,12 @@ from rest_framework import serializers
 
 
 class WeatherSerializer(serializers.Serializer):
-    City = serializers.CharField(max_length=100)
-    Temperature = serializers.CharField(max_length=100)
-    MinTemperature = serializers.CharField(max_length=100)
-    MaxTemperature = serializers.CharField(max_length=100)
-    Humidity = serializers.CharField(max_length=100)
-    Pressure = serializers.CharField(max_length=100)
-    WindSpeed = serializers.CharField(max_length=100)
-    WindDirection = serializers.CharField(max_length=100)
-    Description = serializers.CharField(max_length=255)
+    city = serializers.CharField(max_length=100)
+    temperature = serializers.CharField(max_length=100)
+    min_temperature = serializers.CharField(max_length=100)
+    max_temperature = serializers.CharField(max_length=100)
+    humidity = serializers.CharField(max_length=100)
+    pressure = serializers.CharField(max_length=100)
+    windSpeed = serializers.CharField(max_length=100)
+    wind_direction = serializers.CharField(max_length=100)
+    description = serializers.CharField(max_length=255)
