@@ -19,7 +19,6 @@ class WeatherAPIView(generics.RetrieveAPIView):
         weather_data = client.get_weather(city)
 
         if weather_data["error"]:
-            print(status.HTTP_404_NOT_FOUND)
             return Response(data=weather_data, status=status.HTTP_404_NOT_FOUND)
 
         serializer = self.get_serializer(weather_data["data"])
