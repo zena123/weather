@@ -1,5 +1,6 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.conf import settings
 from rest_framework import generics, status
 from rest_framework.response import Response
 
@@ -7,7 +8,7 @@ from .client import OpenWeatherMapClient
 from .serializers import WeatherSerializer
 
 
-@method_decorator(cache_page(60 * 5), name='dispatch')
+@method_decorator(cache_page(settings.CACHE_SECONDS), name='dispatch')
 class WeatherAPIView(generics.RetrieveAPIView):
     serializer_class = WeatherSerializer
 
