@@ -1,19 +1,21 @@
 import requests
 from datetime import datetime
+import logging
 from django.utils.translation import gettext_lazy as _
 
 from django.conf import settings
 
 
 class OpenWeatherMapClient:
-    def __init__(self, api_key=settings.OPEN_WEATHER_API_KEY):
+    def __init__(self, api_key=settings.OPEN_WEATHER_API_KEY, base_url=settings.BASE_API_URL):
         self.api_key = api_key
+        self.base_url = base_url
 
     def get_weather(self, city):
         lat, lon, country, state = self.get_city_info(city)
 
         if not lat or not lon:
-            # TODO: log error and request
+            logging.error(f"City not found for {city}")
             return {
                 "error": True,
                 "message": _("City not found"),
@@ -23,7 +25,7 @@ class OpenWeatherMapClient:
         weather_data = self.get_weather_data(lat, lon)
 
         if not weather_data:
-            # TODO: log error and request
+            logging.error(f"Failed to fetch weather data for {city}")
             return {
                 "error": True,
                 "message": _("Failed to fetch weather data."),
@@ -31,14 +33,15 @@ class OpenWeatherMapClient:
             }
 
         parsed_weather_data = self.parse_weather_data(weather_data)
+        logging.info(f"Weather data fetched successfully for {city}")
         return {
-            "error": True,
-            "message": _("Failed to fetch weather data."),
+            "error": False,
+            "message": _("weather data fetched successfully."),
             "data": parsed_weather_data,
         }
 
     def get_city_info(self, city):
-        url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={self.api_key}"
+        url = f"{self.base_url}geo/1.0/direct?q={city}&limit=1&appid={self.api_key}"
         response = requests.get(url)
         cities = response.json()
 
@@ -54,7 +57,7 @@ class OpenWeatherMapClient:
         return lat, lon, country, state
 
     def get_weather_data(self, lat, lon):
-        url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units=metric&appid={self.api_key}"
+        url = f"{self.base_url}data/2.5/weather?lat={lat}&lon={lon}&units=metric&appid={self.api_key}"
         response = requests.get(url)
         weather_data = response.json()
 
@@ -90,10 +93,10 @@ class OpenWeatherMapClient:
 
     def get_wind_direction(self, deg):
         if deg > 45 and deg <= 135:
-            return "East"
+            return _("East")
         elif deg > 135 and deg <= 225:
-            return "South"
+            return _("South")
         elif deg > 225 and deg <= 315:
-            return "West"
+            return _("West")
         else:
-            return "North"
+            return _("North")

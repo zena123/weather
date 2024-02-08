@@ -189,7 +189,9 @@ LOGGING = {
     },
 }
 
-# User
-# AUTH_USER_MODEL = "core.User"
+
+AUTH_USER_MODEL = "core.User"
 
 OPEN_WEATHER_API_KEY = env("OPEN_WEATHER_API_KEY", default="40e81b0386bf3086563e5fe4ec67e22b")
+BASE_API_URL = env("BASE_API_URL", default="http://api.openweathermap.org/")
+
