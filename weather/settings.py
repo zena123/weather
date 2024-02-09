@@ -13,8 +13,8 @@ env = environ.Env(
     DEBUG_TOOLBAR=(bool, True),
 )
 
-# reading .env file
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+# reading .env.docker file
+environ.Env.read_env(os.path.join(BASE_DIR, ".env.docker"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env(
@@ -199,10 +199,11 @@ CACHE_SECONDS = env("CACHE_SECONDS", default=300)
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
-        "LOCATION": "127.0.0.1:11211",
+        'LOCATION': env.cache_url()['LOCATION'],
         "TIMEOUT": CACHE_SECONDS,
     }
 }
+
 
 AUTH_USER_MODEL = "core.User"
 
