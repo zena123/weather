@@ -8,6 +8,8 @@ services:
     - "8000:8000"
     volumes:
       - .:/app
+    env_file:
+      - .env.docker
     environment:
       - DB_HOST=db
       - DB_NAME=app
@@ -28,7 +30,7 @@ services:
       - POSTGRES_PASSWORD=supersecretpassword
 
   memcached:
-    image: memcached:1.6-alpine
+    image: memcached:latest
     expose:
       - 11211
     environment:
