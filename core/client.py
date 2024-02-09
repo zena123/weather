@@ -4,10 +4,11 @@ Description: This module defines the OpenWeatherMapClient class, which is respon
 from the OpenWeatherMap API.
 
 """
-
+import asyncio
 import logging
 
 import requests
+from aiohttp import ClientSession
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
@@ -41,7 +42,7 @@ class OpenWeatherMapClient:
         self.api_key = api_key
         self.base_url = base_url
 
-    def get_weather(self, city):
+    async def get_weather(self, city):
         """
         Fetches weather data for a given city.
 
@@ -51,7 +52,7 @@ class OpenWeatherMapClient:
         Returns:
         A dictionary containing weather information or an error message if the data retrieval fails.
         """
-        lat, lon, country, state = self.get_city_info(city)
+        lat, lon, country, state = await self.get_city_info(city)
 
         if not lat or not lon:
             logging.error(f"City not found for {city}")
@@ -61,7 +62,7 @@ class OpenWeatherMapClient:
                 "data": None,
             }
 
-        weather_data = self.get_weather_data(lat, lon)
+        weather_data = await self.get_weather_data(lat, lon)
 
         if not weather_data:
             logging.error(f"Failed to fetch weather data for {city}")
@@ -79,7 +80,7 @@ class OpenWeatherMapClient:
             "data": parsed_weather_data,
         }
 
-    def get_city_info(self, city):
+    async def get_city_info(self, city):
         """
         Retrieves geographical information for a given city.
 
@@ -90,8 +91,10 @@ class OpenWeatherMapClient:
         A tuple containing latitude, longitude, country, and state information.
         """
         url = f"{self.base_url}geo/1.0/direct?q={city}&limit=1&appid={self.api_key}"
-        response = requests.get(url)
-        cities = response.json()
+
+        async with ClientSession() as session:
+            async with session.get(url) as response:
+                cities = await response.json()
 
         if not cities:
             return None, None, None, None
@@ -104,7 +107,7 @@ class OpenWeatherMapClient:
 
         return lat, lon, country, state
 
-    def get_weather_data(self, lat, lon):
+    async def get_weather_data(self, lat, lon):
         """
         Retrieves weather data for a specific geographical location.
 
@@ -116,10 +119,11 @@ class OpenWeatherMapClient:
         Raw weather data from the OpenWeatherMap API.
         """
         url = f"{self.base_url}data/2.5/weather?lat={lat}&lon={lon}&units=metric&appid={self.api_key}"
-        response = requests.get(url)
-        weather_data = response.json()
+        async with ClientSession() as session:
+            async with session.get(url) as response:
+                weather_data = await response.json()
 
-        if response.status_code != 200:
+        if response.status != 200:
             return None
 
         return weather_data
