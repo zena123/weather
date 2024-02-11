@@ -33,8 +33,15 @@ with the OpenWeatherMap API  https://openweathermap.org
 
 ### Installation
 
-install via docker with one command : sudo docker compose up
+install via docker with one command:
+```bash
+     sudo docker compose up
+   ```
 
+note: if CACHE_URL not isn't set, add it in .env.docker as follows
+```bash
+     CACHE_URL=memcache://memcached:11211
+   ```
 ## Usage
 - Clone this repository to your local machine
 
@@ -56,7 +63,6 @@ install via docker with one command : sudo docker compose up
      ```bash
      python manage.py test
      ```
-- Now you have the Django project set up locally, and you can explore weather data for different cities via the provided API endpoints.
 
 ## Acknowledgements
 
