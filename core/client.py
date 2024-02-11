@@ -1,6 +1,6 @@
 """
 Module: client.py
-Description: This module defines the OpenWeatherMapClient class, which is responsible for fetching weather data
+Description: defines the OpenWeatherMapClient class, which is responsible for fetching weather data
 from the OpenWeatherMap API.
 
 """
@@ -33,7 +33,7 @@ class OpenWeatherMapClient:
         self, api_key=settings.OPEN_WEATHER_API_KEY, base_url=settings.BASE_API_URL
     ):
         """
-        Constructor for OpenWeatherMapClient class.
+        Constructor.
 
         Parameters:
         - api_key (str): The API key used for authentication (default is the key from Django settings).
@@ -85,7 +85,7 @@ class OpenWeatherMapClient:
         Retrieves geographical information for a given city.
 
         Parameters:
-        - city (str): The name of the city for which geographical information is requested.
+        - city (str): The name of the city.
 
         Returns:
         A tuple containing latitude, longitude, country, and state information.
@@ -112,8 +112,8 @@ class OpenWeatherMapClient:
         Retrieves weather data for a specific geographical location.
 
         Parameters:
-        - lat (float): Latitude of the location.
-        - lon (float): Longitude of the location.
+        - lat (float): Latitude.
+        - lon (float): Longitude.
 
         Returns:
         Raw weather data from the OpenWeatherMap API.
