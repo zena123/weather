@@ -69,19 +69,19 @@ def get_city_url(city):
     return reverse("core:weather-api", kwargs={"city": city})
 
 
-# class WeatherAPITest(TestCase):
-#     def setUp(self):
-#         self.client = APIClient()
-#
-#     @patch("django.core.cache.cache.get", return_value=None)
-#     def test_get_weather_data(self, mock_cache_get):
-#         # avoid connecting to memcached
-#         with patch("django.core.cache.cache.set", new_callable=MagicMock) as mock_cache_set:
-#             response = self.client.get(get_city_url("London"))
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertIn("city", response.data)
-#         self.assertIn("temperature", response.data)
-#         self.assertIn("wind_direction", response.data)
+class WeatherAPITest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+    @patch("django.core.cache.cache.get", return_value=None)
+    def test_get_weather_data(self, mock_cache_get):
+        # avoid connecting to memcached
+        with patch("django.core.cache.cache.set", new_callable=MagicMock) as mock_cache_set:
+            response = self.client.get(get_city_url("London"))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("city", response.data)
+        self.assertIn("temperature", response.data)
+        self.assertIn("wind_direction", response.data)
 #
 #     @patch("django.core.cache.cache.get", return_value=None)
 #     def test_get_weather_data_invalid_city(self, mock_cache_get):
